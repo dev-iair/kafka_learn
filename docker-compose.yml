@@ -1,0 +1,62 @@
+version: '3'
+services:
+
+  kafka-app:
+    image: python
+    stdin_open: true
+    tty: true
+    volumes: 
+      - ./app:/app
+    ports:
+      - "9007:9007"
+      - "9008:9008"
+      - "9009:9009"
+      - "9010:9010"
+    networks:
+      - kafka-net
+
+  kafka-first:
+    image: jh-kafka
+    stdin_open: true
+    tty: true
+    environment:
+      - KAFKA_SERVER_NO=first
+    volumes:
+      - /MK_TEAM/jhlee/jh_kafka/data/kafka-first:/app/data
+    ports:
+      - "9001:9092"
+    networks:
+      - kafka-net
+    command: bash /app/kafka_2.13-3.4.0/setup.sh
+      
+  kafka-second:
+    image: jh-kafka
+    stdin_open: true
+    tty: true
+    environment:
+      - KAFKA_SERVER_NO=second
+    volumes:
+      - /MK_TEAM/jhlee/jh_kafka/data/kafka-second:/app/data
+    ports:
+      - "9002:9092"
+    networks:
+      - kafka-net
+    command: bash /app/kafka_2.13-3.4.0/setup.sh
+
+  kafka-third:
+    image: jh-kafka
+    stdin_open: true
+    tty: true
+    environment:
+      - KAFKA_SERVER_NO=third
+    volumes:
+      - /MK_TEAM/jhlee/jh_kafka/data/kafka-third:/app/data
+    ports:
+      - "9003:9092"
+    networks:
+      - kafka-net
+    command: bash /app/kafka_2.13-3.4.0/setup.sh
+
+networks:
+  kafka-net:
+    driver: bridge
