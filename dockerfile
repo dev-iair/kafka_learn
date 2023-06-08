@@ -7,6 +7,6 @@ RUN mkdir /app
 WORKDIR /app
 RUN wget https://dlcdn.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
 RUN tar -xzf kafka_2.13-3.4.0.tgz
-COPY ./data/properties /app/kafka_2.13-3.4.0
+COPY ./data/properties/server.properties /app/kafka_2.13-3.4.0/config/kraft/server.properties
 COPY ./setup.sh /app/kafka_2.13-3.4.0
 COPY ./run.sh /app/kafka_2.13-3.4.0

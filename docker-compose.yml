@@ -20,7 +20,12 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - KAFKA_SERVER_NO=first
+      - KFK_NODE_ID=1
+      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_ADV_LISTENERS=kafka-first
+      - KFK_LOG_DIRS=/app/data
+      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
+
     volumes:
       - /MK_TEAM/jhlee/jh_kafka/data/kafka-first:/app/data
     ports:
@@ -34,7 +39,11 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - KAFKA_SERVER_NO=second
+      - KFK_NODE_ID=2
+      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_ADV_LISTENERS=kafka-second
+      - KFK_LOG_DIRS=/app/data
+      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
     volumes:
       - /MK_TEAM/jhlee/jh_kafka/data/kafka-second:/app/data
     ports:
@@ -48,7 +57,11 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - KAFKA_SERVER_NO=third
+      - KFK_NODE_ID=3
+      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_ADV_LISTENERS=kafka-third
+      - KFK_LOG_DIRS=/app/data
+      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
     volumes:
       - /MK_TEAM/jhlee/jh_kafka/data/kafka-third:/app/data
     ports:
