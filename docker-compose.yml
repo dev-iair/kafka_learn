@@ -1,74 +1,60 @@
 version: '3'
 services:
 
-  kafka-app:
-    image: python
-    stdin_open: true
-    tty: true
-    volumes: 
-      - ./app:/app
-    ports:
-      - "9007:9007"
-      - "9008:9008"
-      - "9009:9009"
-      - "9010:9010"
-    networks:
-      - kafka-net
-
   kafka-first:
-    image: jh-kafka
+    image: docker-kafka
     stdin_open: true
     tty: true
     environment:
       - KFK_NODE_ID=1
-      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_QUORUM_VOTERS=${KFK_QUORUM_VOTERS}
       - KFK_ADV_LISTENERS=kafka-first
-      - KFK_LOG_DIRS=/app/data
-      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
+      - KFK_LOG_DIRS=${KFK_LOG_DIRS}
+      - KFK_CLUSTER_ID=${KFK_CLUSTER_ID}
 
     volumes:
-      - /MK_TEAM/jhlee/jh_kafka/data/kafka-first:/app/data
+      - ./data/kafka-first:${KFK_LOG_DIRS}
     ports:
       - "9001:9092"
     networks:
       - kafka-net
-    command: bash /app/kafka_2.13-3.4.0/setup.sh
+    command: bash /app/kafka_2.13-3.5.0/setup.sh
       
   kafka-second:
-    image: jh-kafka
+    image: docker-kafka
     stdin_open: true
     tty: true
     environment:
       - KFK_NODE_ID=2
-      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_QUORUM_VOTERS=${KFK_QUORUM_VOTERS}
       - KFK_ADV_LISTENERS=kafka-second
-      - KFK_LOG_DIRS=/app/data
-      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
+      - KFK_LOG_DIRS=${KFK_LOG_DIRS}
+      - KFK_CLUSTER_ID=${KFK_CLUSTER_ID}
     volumes:
-      - /MK_TEAM/jhlee/jh_kafka/data/kafka-second:/app/data
+      - ./data/kafka-second:${KFK_LOG_DIRS}
     ports:
       - "9002:9092"
     networks:
       - kafka-net
-    command: bash /app/kafka_2.13-3.4.0/setup.sh
+    command: bash /app/kafka_2.13-3.5.0/setup.sh
 
   kafka-third:
-    image: jh-kafka
+    image: docker-kafka
     stdin_open: true
     tty: true
     environment:
       - KFK_NODE_ID=3
-      - KFK_QUORUM_VOTERS=1@kafka-first:9093,2@kafka-second:9093,3@kafka-third:9093
+      - KFK_QUORUM_VOTERS=${KFK_QUORUM_VOTERS}
       - KFK_ADV_LISTENERS=kafka-third
-      - KFK_LOG_DIRS=/app/data
-      - KFK_CLUSTER_ID=OTAyOTA4YjE2ZTg1NDE5OT
+      - KFK_LOG_DIRS=${KFK_LOG_DIRS}
+      - KFK_CLUSTER_ID=${KFK_CLUSTER_ID}
     volumes:
-      - /MK_TEAM/jhlee/jh_kafka/data/kafka-third:/app/data
+      - ./data/kafka-third:${KFK_LOG_DIRS}
     ports:
       - "9003:9092"
     networks:
       - kafka-net
-    command: bash /app/kafka_2.13-3.4.0/setup.sh
+    command: bash /app/kafka_2.13-3.5.0/setup.sh
 
 networks:
   kafka-net:
