@@ -17,7 +17,7 @@ services:
     ports:
       - "9001:9092"
     networks:
-      - kafka-net
+      - docker-elk_elk
     command: bash /app/kafka_2.13-3.5.0/setup.sh
       
   kafka-second:
@@ -35,7 +35,7 @@ services:
     ports:
       - "9002:9092"
     networks:
-      - kafka-net
+      - docker-elk_elk
     command: bash /app/kafka_2.13-3.5.0/setup.sh
 
   kafka-third:
@@ -53,9 +53,20 @@ services:
     ports:
       - "9003:9092"
     networks:
-      - kafka-net
+      - docker-elk_elk
     command: bash /app/kafka_2.13-3.5.0/setup.sh
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    ports:
+      - "9000:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=KAFKA_TEST
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=${KFK_BOOTSTRAP_SERVERS}
+    networks:
+      - docker-elk_elk
+
 networks:
-  kafka-net:
-    driver: bridge
+  docker-elk_elk:
+    external: true
